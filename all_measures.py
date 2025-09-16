@@ -24,9 +24,9 @@ import pywt
 
 import matplotlib.pyplot as plt
 
-# ---------------------------
+
 # Config
-# ---------------------------
+
 BASE_DIR = r"E:\SS316_ShotPeen\images"  # change to your root
 AUTO_DETECT_LEVELS = True               # if True, auto-detect numeric subfolders
 DEFAULT_LEVELS = list(range(0, 21))     # fallback: 0..20
@@ -34,9 +34,9 @@ TAKE_FIRST_N = 1                        # set 50 if you want the first 50 images
 
 SUPPORTED_EXTS = ("*.png", "*.jpg", "*.jpeg", "*.tif", "*.tiff", "*.bmp")
 
-# ---------------------------
+
 # Utils
-# ---------------------------
+
 def list_level_dirs(base: str) -> List[Tuple[int, str]]:
     """Return [(level_id, folder_path), ...] sorted by level_id."""
     if AUTO_DETECT_LEVELS:
@@ -385,4 +385,5 @@ def main_plot():
 if __name__ == "__main__":
     main()
     main_plot()
+
 
