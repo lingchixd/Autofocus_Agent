@@ -27,7 +27,7 @@ import matplotlib.pyplot as plt
 # ---------------------------
 # Config
 # ---------------------------
-BASE_DIR = r"E:\SS316_ShotPeen\images"  # <== change to your root
+BASE_DIR = r"E:\SS316_ShotPeen\images"  # change to your root
 AUTO_DETECT_LEVELS = True               # if True, auto-detect numeric subfolders
 DEFAULT_LEVELS = list(range(0, 21))     # fallback: 0..20
 TAKE_FIRST_N = 1                        # set 50 if you want the first 50 images per level
@@ -90,9 +90,9 @@ def laplacian_kernel_fspecial() -> np.ndarray:
                      [0.6667, -3.3333, 0.6667],
                      [0.1667, 0.6667, 0.1667]], dtype=np.float64)
 
-# ---------------------------
+
 # Focus measures
-# ---------------------------
+
 def BREN(img: np.ndarray) -> float:
     """Brenner gradient (two-pixel difference), mean of max(DH,DV)^2."""
     M, N = img.shape
@@ -248,9 +248,9 @@ def SFIL(img: np.ndarray, wsize: int = 15) -> float:
     FM = np.max(Rstack, axis=0)
     return mean2(FM)
 
-# ---------------------------
+
 # Runner
-# ---------------------------
+
 def main():
     print(f"[INFO] Base: {BASE_DIR}")
     levels = list_level_dirs(BASE_DIR)
@@ -324,7 +324,7 @@ def main_plot():
     metrics = ["BREN","LAPE","LAPM","LAPV","LAPD",
                "VOLA","TENV","TENG","WAVS","WAVV","DCTS","HISE"]
 
-    # 为每个指标准备一条曲线（按 level 的平均值）
+    # prepare plot for each parameter
     scores_all = {m: [] for m in metrics}
     levels_x = []
 
@@ -334,13 +334,13 @@ def main_plot():
             files.extend(glob.glob(os.path.join(folder, pat)))
         files = sorted(files)
         if not files:
-            # 该 level 无图，用 NaN 占位，保证横轴连续
+            # make x-axis continuous
             for m in metrics: scores_all[m].append(float("nan"))
             levels_x.append(lv)
             continue
 
-        files = files[:TAKE_FIRST_N]  # 只取前 N 张
-        # 收集该 level 内每张图的指标，之后求平均
+        files = files[:TAKE_FIRST_N]
+        # average
         acc = {m: [] for m in metrics}
 
         for fp in files:
@@ -363,14 +363,14 @@ def main_plot():
             except Exception as e:
                 print(f"[WARN] {fp} failed: {e}")
 
-        # 按 level 取平均（也可改成 max/median 等）
+        # average in different level
         for m in metrics:
             vals = np.array(acc[m], dtype=float)
             scores_all[m].append(float(np.nanmean(vals)) if vals.size else float("nan"))
 
         levels_x.append(lv)
 
-    # 画 4×3 子图
+    # sub-image
     plt.figure(figsize=(16, 12))
     for idx, m in enumerate(metrics, 1):
         plt.subplot(4, 3, idx)
@@ -385,3 +385,4 @@ def main_plot():
 if __name__ == "__main__":
     main()
     main_plot()
+
