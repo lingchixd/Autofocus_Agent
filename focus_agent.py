@@ -47,7 +47,7 @@ import torch
 from transformers import CLIPProcessor, CLIPModel
 
 
-os.environ["OPENAI_API_KEY"] = "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"
+os.environ["OPENAI_API_KEY"] = ""
 llm = ChatOpenAI(model="gpt-4.1")
 
 
@@ -295,3 +295,4 @@ if __name__ == "__main__":
         if isinstance(m, AIMessage):
             print(m.content)
             break
+
